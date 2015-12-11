@@ -1,3 +1,7 @@
-var fs = require('fs');
+var through = require('through2');
+var tr = through(function(buffer, encoding, next) {
+  this.push(buffer.toString('utf8').toUpperCase());
+  next();
+});
 
-process.stdin.pipe(process.stdout);
+process.stdin.pipe(tr).pipe(process.stdout);
