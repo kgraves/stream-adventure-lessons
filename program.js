@@ -1,15 +1,5 @@
-var http = require('http');
-var through = require('through2');
+var request = require('request');
 
-var server = http.createServer(function (req, res) {
-  if (req.method === 'POST') {
-    req.pipe(through(function(buffer, encoding, next) {
-      this.push(buffer.toString().toUpperCase());
-      next();
-    })).pipe(res);
-  } else {
-    res.end();
-  }
-});
-
-server.listen(process.argv[2]);
+process.stdin
+    .pipe(request.post('http://localhost:8099'))
+    .pipe(process.stdout);
